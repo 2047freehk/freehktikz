@@ -16,4 +16,4 @@ The tikzpeople package is licensed under the LATEX Project Public License.
 – 2047freehk  Dec 2019
 
 
-![image](Protestor.PNG)
+![image](protestor.PNG)
