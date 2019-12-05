@@ -1,0 +1,103 @@
+%% Copyright 2019 2047freehk
+%%
+%% This work may be distributed and/or modified under the 
+%% conditions of the LaTeX Project Public License, either 
+%% version 1.3 of this license or (at your option) any later 
+%% version. The latest version of this license is in
+%%
+%%   http://www.latex-project.org/lppl.txt
+%%
+%% and version 1.3 or later is part of all distributions of 
+%% LaTeX version 2005/12/01 or later.
+%%
+%% This work is modified from the package tikzpeople created by Nils Fleischhacker in 2016
+
+\freehk@addcolorkey{glasses}
+%\freehk@addcolorkey{mask}
+
+\newcommand{\freehk@protestor@paint}{
+        \freehk@person@paintshirt
+        %\freehk@protestor@painttrousers
+        \freehk@person@paintrighthorn
+        \freehk@person@painthead
+        \freehk@person@painthairstyletwo
+        \freehk@protestor@paintglasses
+        \freehk@protestor@painthat
+        \freehk@person@paintlefthorn
+        \freehk@person@paintgoatee
+        \freehk@person@painthalo
+        %\freehk@protestor@paintmask
+        %\freehk@protestor@paintpost
+}
+
+%%%%%%%%%%%%%%%%
+%% from freehk.shape.maninblack.sty
+\newcommand{\freehk@protestor@paintglasses}{
+%         \draw[glasses] 
+%                 (170:1.1pt) -- ++(173:1.8pt) -- ++(270:.1pt) to[out=340, in=140] (210:1pt);
+        \draw[glasses] 
+                (15:3pt) to[out=200,in=355] (170:1.1pt) to[out=280,in=180] ++(290:1.05pt) 
+                to[out=350,in=180,out looseness=3] (1.3pt,.1pt)  
+                to[out=0,in=180,in looseness=2] ++(310:1pt) to[out=0,in=230,in looseness=.5]
+                (357:3pt) arc (-3:15:3pt);
+%         \begin{scope}
+%                 \clip (0pt,0pt) circle (3pt);
+%                 \draw[earpiececable] 
+%                         (190:2.1pt) ++(0,-.2pt) to[out=270,in=120] (240:3.2pt);
+%                 \draw[earpiece] (190:2.1pt) ellipse (.1pt and .2pt);
+%         \end{scope}
+}
+%%%%%%%%%%%%%%%%%
+
+% \newcommand{\freehk@protestor@painttrousers}{
+%         \begin{scope}
+%                 \clip 
+%                         (-4.0pt,-8.0pt) .. controls (-2pt,-10pt) and ( 3pt,-9pt) .. 
+%                         ( 5.0pt,-7.0pt) .. controls ( 5pt,  0pt) and (-5pt, 0pt) .. 
+%                         (-4.0pt,-8.0pt);
+%                         \draw[skin] (200:3.5pt) arc (200:330:4pt);
+%                 \draw[trousers] 
+%                         (225:6pt) .. controls +(310:2pt) and +(250:3pt) .. 
+%                         (320:6pt) -- ++(2pt,-6pt) -- ++(-12pt,0) -- cycle;
+%                 \draw[trousers] 
+%                         (225:3pt) to[out=320,in=100] ++(300:5.5pt) -- ++(-1pt,-1pt) --
+%                         ++(-.9pt,.4pt)  to[out=100,in=320] ++(120:5.5pt) -- cycle;
+%         \end{scope}
+%         \draw[trousers] 
+%                 (280:2pt) to[out=320,in=100] ++(295:5pt) -- ++(1pt,-.4pt) --
+%                 ++(.6pt,1pt) to[out=100,in=320] ++(118:5.5pt) -- cycle;
+% }
+
+\newcommand{\freehk@protestor@painthat}{
+        \draw[hat] 
+                (160:3.5pt) to[out=320,in=170] (0,0) -- ++(1pt,-.5pt) arc(270:310:5pt) -- 
+                ++(-.9pt,.5pt) .. controls +(95:3pt) and +(80:4pt) .. (160:3.5pt);
+        \draw[color=\freehk@hat] (0,0) arc(270:305:6pt);
+        \draw[color=\freehk@hat] (1.2pt,0.2pt) arc (0:70:2.8pt) -- ++(160:1.2pt);
+        \draw[color=\freehk@hat] (2.2pt,0.5pt) arc (0:70:2.8pt) -- ++(159:1.5pt);
+        \draw[color=\freehk@hat] (3pt,.9pt) arc (0:70:2.8pt) -- ++(160:.5pt);
+}
+
+
+
+\newcommand{\freehk@protestor@definecolors}{
+        \definecolor{shirt}{RGB}{0.34,0.56,0.22} 
+        \definecolor{hat}{RGB}{238,175,0}
+        \definecolor{trousers}{RGB}{33,81,171}
+        \definecolor{glasses}{rgb}{0,0,.1}
+        \definecolor{hair}{rgb}{0.45,0.24,0}
+        %\definecolor{mask}{RGB}{171,201,177}
+}
+
+\newcommand{\freehk@protestor@definestyles}{
+                \tikzset{
+                        trousers/.style={color=\freehk@trousers,top color=\freehk@trousers!70, bottom color=\freehk@trousers,shading angle=45},
+                        glasses/.style      ={color=\freehk@glasses,top color=\freehk@glasses!70, bottom color=\freehk@glasses,shading angle=45},
+        }
+}
+
+\newcommand{\freehk@protestor@colors}{
+        hat/160/{-.35/1.4}, skin/20/{.5/.6},glasses/30/{.6/.9},
+        hair/180/{-.7/.8}, shirt/340/{.3/-.3}%
+}
+

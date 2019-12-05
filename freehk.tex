@@ -1,0 +1,277 @@
+%% Copyright 2019 2047freehk
+%%
+%% This work may be distributed and/or modified under the 
+%% conditions of the LaTeX Project Public License, either 
+%% version 1.3 of this license or (at your option) any later 
+%% version. The latest version of this license is in
+%%
+%%   http://www.latex-project.org/lppl.txt
+%%
+%% and version 1.3 or later is part of all distributions of 
+%% LaTeX version 2005/12/01 or later.
+%%
+%% This work is modified from the package tikzpeople created by Nils Fleischhacker in 2016
+%%
+%% This work consists of the files 
+%% freehk.tex, 
+%% freehk.sty,
+%% freehk.shape.protestor.sty, 
+%% freehk.shape.hkpolice.sty, 
+%%
+\documentclass{ltxdoc}
+\usepackage{freehk}
+\usepackage[OT1]{fontenc}
+\usepackage{hyperref}
+\usepackage{microtype}
+\usepackage{xspace}
+\usepackage[most]{tcolorbox}
+\usepackage[title]{appendix}
+\usetikzlibrary{shapes.callouts}
+
+%\newcommand*{\Appendixautorefname}{Appendix}
+
+
+\pgfdeclarelayer{background}
+\pgfsetlayers{background,main}
+\selectcolormodel{cmyk}
+
+\newcommand{\tikzname}{Ti\emph{k}Z\xspace}
+
+\newcommand{\varg}[1]{%
+	{\ttfamily\char`\{}#1{\ttfamily\char`\}}}
+\newcommand{\DescribeOption}[1]{\leavevmode
+	\marginpar{\raggedleft\strut\MacroFont\string #1\ }}
+
+\lstdefinestyle{example}{style=tcblatex,
+  classoffset=0,
+  texcsstyle=*\color{blue},%
+  deletetexcs={begin,end},
+  moretexcs={,%
+    pgfdeclarehorizontalshading,pgfuseshading,node,
+    useasboundingbox,draw}%
+  classoffset=1,
+  keywordstyle=\color{blue},%
+  morekeywords={tikzpicture,shade,fill,draw,path,node,child,line,width,rectangle,minimum width,minimum size},
+  classoffset=0}
+
+\tcbset{%
+  fillbackground/.style={before lower pre={%
+  \tikzset{every picture/.style={execute at end picture={\begin{pgfonlayer}{background}
+    \fill[yellow!15]
+    ([xshift=-4mm,yshift=-4mm]current bounding box.south west) rectangle
+    ([xshift=4mm,yshift=4mm]current bounding box.north east);
+    \end{pgfonlayer}}}}}},
+  explicitpicture/.style={before lower=\begin{center},after lower=\end{center},fillbackground}}
+
+\newtcblisting{codeexample}[2][]{%
+  enhanced,frame hidden,
+  top=0pt,bottom=0pt,left=0pt,right=0pt,arc=0pt,boxrule=0pt,
+  colback=blue!15,
+  listing style=example,
+  sidebyside,text and listing,text outside listing,sidebyside gap=2mm,
+  lefthand width=#2,tikz lower,fillbackground,
+  #1}
+
+\title{\tikz{\node[protestor,shield,umbrella,mask,minimum height=2cm]{}}\\The \textsf{freehk} package}
+\author{2047 freehk}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+  This package provides people shaped pgf-shapes to be used in \tikzname pictures. This is based on tikzpeople package by Nils Fleischhacker. Hence, it is a package but not a \tikzname library.
+\end{abstract}
+
+\section{Introduction}
+  This package is to remember freedom fighters in Hong Kong.
+
+\subsection{Installation}
+ 
+The installation is similar to that for tikzpeople. It is adapted to this package as below.
+
+
+	To install the package just drop the \textsf{freehkesty} file and all the shape files, i.e. \textsf{freehk.shape.\meta{shapename}.sty}, somewhere \LaTeX can find them.
+	You might for example put them in your local \textsf{texmf} tree at \url{\textasciitilde/texmf/tex/latex/freehk/}.
+	
+	Alternatively simply drop all the files into the folder where your main \textsf{.tex} file resides.\footnote{Do not use a subfolder. While you can refer to the package itself in a hackish way using a relative path, \LaTeX wont be able to find the shape files.}
+
+
+
+\section{Usage}
+	To use the \textsf{freehk} shapes, just write |\usepackage|\varg{freehk} somewhere in the preamble of your document.
+
+\subsection{Available Shapes}
+
+Below is also adapted from tikzpeople documentation.
+    
+Once the package is loaded, any of the defined shapes can be used as the shape of any \tikzname node just like any other predefined shape.
+\begin{codeexample}{3cm}
+\node[draw,rectangle,minimum size=1.5cm] at (0,2) {};
+\node[protestor,minimum size=1.5cm] at (0,0) {};
+\end{codeexample}
+
+However, it should be noted that in many respects the nodes behave quite differently from standard node shapes.
+
+First, the nodes are drawn and filled, whether |draw| and |fill| are specified or not, because -- quite frankly -- if you do not want to draw the node, then the \textsf{freehk} are quite useless to you.
+
+Another area where the behavior might be unexpected to the experienced \tikzname user is concerning the node text.
+	
+\begin{codeexample}{3cm}
+\node[draw,rectangle,minimum size=1.5cm] at (0,2) {A Rectangle};
+\node[protestor,minimum size=1.5cm] (B) at (0,0) {A protestor};
+\draw[gray,dotted] (B.north west) rectangle (B.south east);
+\end{codeexample}
+
+	The text appears below the actual node, not within and the width of the text influence neither the drawn shape nor any of the border anchors.
+	The reason for this is that in the intended usecase, the node text -- if present at all -- is simply a label and is not supposed to influence the size or behavior of the node.
+%	
+%	Another oddity of the tikzpeople shapes is that the border anchors and size of the node only takes into consideration the underlying shape of a person, and nothing of the -- sometimes much larger -- stuff such as hats added by some of the shapes.
+%	\begin{codeexample}{3cm}
+%\node[person,minimum size=1.5cm] (B) at (0,4) {A Person};
+%\draw[gray,dotted] (B.north west) rectangle (B.south east);
+%\node[mexican,minimum size=1.5cm]     (M) at (0,0) {A Mexican};
+%\draw[gray,dotted] (M.north west) rectangle (M.south east);
+%	\end{codeexample}
+%	Again, the reason for this is that two shapes specified to have the same size, should behave like two people of same size.
+%	If for example \texttt{minimum width} would take the actual width into consideration, then the Mexican would be much smaller than the person.
+%	
+%	While all of these oddities are useful to me and in my specific usecase, they may cause problem for you in any number of ways.
+%	So if you don't think you will be able to cope with them, I suggest you stop reading and look elsewhere for people-shaped \tikzname nodes.
+%
+\subsection{The Available Shapes}
+
+There are two basic shapes: protestor and hkpolice.
+
+\DescribeMacro{protestor}	The |protestor| is on black bloc and wears a yellow hat.
+\begin{codeexample}{3.2cm}
+\node[protestor,minimum size=1cm,xshift=-1.2cm]{};
+\node[protestor,masked,minimum size=1cm] {};
+\end{codeexample}
+
+\DescribeMacro{hkpolice}	The |hkpolice| has a white badge without number.
+\begin{codeexample}{3.2cm}
+\node[hkpolice,minimum size=1cm,xshift=-1.2cm]{};
+\node[hkpolice,masked,minimum size=1cm] {};
+\end{codeexample}
+
+\subsection{General Node Options}
+
+Most of the options in \textsf{freehk} can be used to influence the appearance. 
+
+\DescribeOption{masked}	The |masked| option add a mask to face.
+\begin{codeexample}{3.2cm}
+\node[protestor,masked,minimum size=1cm,xshift=-1.2cm]{};
+\node[hkpolice,masked,minimum size=1cm]{};
+\end{codeexample}
+
+\DescribeOption{umbrella}	The |umbrella| option add an umbrella.
+\begin{codeexample}{3.2cm}
+\node[protestor,umbrella,minimum size=1cm,xshift=-1.2cm]{};
+\node[hkpolice,umbrella,minimum size=1cm]{};
+\end{codeexample}
+
+\DescribeOption{sign}	The |sign| option add a sign.
+\begin{codeexample}{3.2cm}
+\node[protestor,sign,minimum size=1cm,xshift=-1.2cm]{};
+\node[hkpolice,sign,minimum size=1cm]{};
+\end{codeexample}
+The default signpost is number 5. To change the number, we need to use the option signpost.
+
+\DescribeOption{signpost}	The |signpost| option add a sign with custom text.
+\begin{codeexample}{3.2cm}
+\node[protestor,sign,signpost={HK},minimum size=1cm,xshift=-1.2cm]{};
+\node[hkpolice,sign,signpost={HK},minimum size=1cm]{};
+\end{codeexample}
+
+\subsection{General Node Options from \textsf{tikzpeople}}
+
+We can use most of the options in \textsf{tikzpeople} to influence the appearance. 
+
+\DescribeOption{female}	The |female| option changes the hair style from male to female.
+\begin{codeexample}{3.2cm}
+\node[protestor,minimum size=1cm,xshift=-1.2cm]{};
+\node[hkpolice,female,minimum size=1cm]{};
+\end{codeexample}
+
+\DescribeOption{good}	The |good| option is supposed to make nodes look extraordinarily good.
+		For most tikzpeople this is accomplished by adding a halo.
+		\begin{codeexample}{3.2cm}
+\node[protestor,good,minimum size=1cm,xshift=-1.2cm]{};
+\node[hkpolice,good,minimum size=1cm]{};
+		\end{codeexample}
+
+	\DescribeOption{evil}	The |evil| option is supposed to make nodes look more evil than usual.
+	This is accomplished by adding horns and a goatee.
+	\begin{codeexample}{3.2cm}
+\node[protestor,evil,minimum size=1cm,xshift=-1.2cm]{};
+\node[hkpolice,evil,minimum size=1cm] {};
+	\end{codeexample}
+The color of the horns is controlled with the |horns| key.
+
+
+	\DescribeOption{mirrored}	The \textsf{mirrored} option makes nodes face to the left instead of the right.
+		\begin{codeexample}{3.2cm}
+\node[protestor,mirrored,minimum size=1cm,xshift=-1.2cm]{};
+\node[hkpolice,mirrored,minimum size=1cm]{};
+		\end{codeexample}
+		
+	\DescribeOption{monitor} The \textsf{monitor} option draws a monitor in front of the node.
+		\begin{codeexample}{4cm}
+\node[protestor,monitor,minimum size=1cm,xshift=-1.5cm]{};
+\node[hkpolice,monitor,minimum size=1cm]{};
+		\end{codeexample}
+	
+\DescribeOption{sword} The \textsf{sword} option gives the node a sword.
+		\begin{codeexample}{4cm}
+\node[protestor,sword,minimum size=1cm,xshift=-1.2cm]{};
+\node[hkpolice,sword,minimum size=1cm]{};
+		\end{codeexample}
+		This could be useful to symbolize that a party is attacking or defending something and combines well with the |shield| option.
+		The colors of the sword are controlled using the keys |swordblade|, |swordguard|, |swordpommel|, and |swordgrip|.
+
+	\DescribeOption{shield} The \textsf{shield} option gives the node a shield.
+		\begin{codeexample}{4cm}
+\node[protestor,shield,minimum size=1cm,xshift=-1.2cm]{};
+\node[hkpolice,shield,minimum size=1cm]{};
+		\end{codeexample}
+		This could be useful to symbolize that a party is defending something and combines well with the |sword| option.
+		The colors of the shield are controlled using the keys |shieldmid|, |shieldedge|, and |shieldrivets|.
+	
+	
+
+	All of these options can be arbitrarily combined. 
+	\begin{codeexample}{4cm}
+\node[protestor,evil,female,good,mirrored,
+monitor, mask, umbrella,sword,minimum size=1.5cm]{};
+	\end{codeexample}
+
+
+\subsection{Color Options}
+	As in \textsf{tikzpeople}, almost all the colors can be specified separately.
+	
+	For example, we can have an elderly protestor:
+	\begin{codeexample}{3cm}
+\node[protestor, shirt=black, hair=gray, minimum size=1.5cm]{};
+	\end{codeexample}
+
+See appendix for further color options.
+
+\subsection{Anchors}
+
+Anchor is the same as \textsf{tikzpeople}. What is worth repeating here is is the |mouth| anchor. In conjunction with \tikzname's |callout| shapes this anchor allows to easily depict talking \textsf{freehk}.
+	\begin{codeexample}{4.6cm}
+\node[name=a,shape=protestor,sign,minimum size=1cm,xshift=-1.25cm] {};
+\node[name=b,shape=hkpolice,minimum size=1cm,mirrored,xshift=1.25cm] {};
+\node[ellipse callout, draw,yshift= 1.0cm, callout absolute pointer={(a.mouth)}, font=\tiny] {5 demands!};
+\node[ellipse callout, draw, yshift=-.3cm, callout absolute pointer={(b.mouth)}, font=\tiny] {What?};
+	\end{codeexample}
+
+\clearpage
+\begin{appendices}
+\section{Color Options}
+\freehkcolors{protestor}
+\vfill\freehkcolors{hkpolice}
+	\end{appendices}
+\end{document}
+

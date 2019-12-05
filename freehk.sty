@@ -1,0 +1,786 @@
+%% Copyright 2019 2047freehk
+%%
+%% This work may be distributed and/or modified under the 
+%% conditions of the LaTeX Project Public License, either 
+%% version 1.3 of this license or (at your option) any later 
+%% version. The latest version of this license is in
+%%
+%%   http://www.latex-project.org/lppl.txt
+%%
+%% and version 1.3 or later is part of all distributions of 
+%% LaTeX version 2005/12/01 or later.
+%%
+%% This work is modified from the package tikzpeople created by Nils Fleischhacker in 2016
+%%
+%% This work consists of the files 
+%% freehk.tex, 
+%% freehk.sty,
+%% freehk.shape.protestor.sty, 
+%% freehk.shape.hkpolice.sty, 
+%%
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{freehk}[2017/04/22 v0.4 People shaped nodes for Tikz]
+
+\RequirePackage{tikz}
+\RequirePackage{calc}
+\RequirePackage{etoolbox}
+
+\usepgflibrary{intersections}
+\usetikzlibrary{decorations.markings,decorations.pathmorphing,calc,positioning,arrows.meta}
+
+\newif\if@freehk@mirrored
+\pgfkeys{/tikz/mirrored/.is if=@freehk@mirrored}
+\newif\if@freehk@female
+\pgfkeys{/tikz/female/.is if=@freehk@female}
+\newif\if@freehk@evil
+\pgfkeys{/tikz/evil/.is if=@freehk@evil}
+\newif\if@freehk@good
+\pgfkeys{/tikz/good/.is if=@freehk@good}
+\newif\if@freehk@monitor
+\pgfkeys{/tikz/monitor/.is if=@freehk@monitor}
+\newif\if@freehk@shield
+\pgfkeys{/tikz/shield/.is if=@freehk@shield}
+\newif\if@freehk@sword
+\pgfkeys{/tikz/sword/.is if=@freehk@sword}
+\newif\if@freehk@umbrella
+\pgfkeys{/tikz/umbrella/.is if=@freehk@umbrella}
+\newif\if@freehk@sign
+\pgfkeys{/tikz/sign/.is if=@freehk@sign}
+\newif\if@freehk@masked
+\pgfkeys{/tikz/masked/.is if=@freehk@masked}
+
+\newcommand{\freehk@addcolorkey}[1]{
+        \expandafter\def\csname freehk@#1\endcsname{#1}
+        \pgfkeys{/tikz/#1/.code=\expandafter\def\csname freehk@#1\endcsname{##1}}
+}
+
+\newcommand{\freehk@addtextkey}[2]{
+        \expandafter\def\csname freehk@#1\endcsname{#2}
+        \pgfkeys{/tikz/#1/.code=\expandafter\def\csname freehk@#1\endcsname{##1}}
+}
+
+\freehk@addcolorkey{horns}
+\freehk@addcolorkey{halo}
+\freehk@addcolorkey{shirt}
+\freehk@addcolorkey{undershirt}
+\freehk@addcolorkey{skin}
+\freehk@addcolorkey{hair}
+\freehk@addcolorkey{hat}
+\freehk@addcolorkey{pc}
+\freehk@addcolorkey{shieldmid}
+\freehk@addcolorkey{shieldedge}
+\freehk@addcolorkey{shieldrivets}
+\freehk@addcolorkey{swordblade}
+\freehk@addcolorkey{swordgrip}
+\freehk@addcolorkey{swordguard}
+\freehk@addcolorkey{swordpommel}
+\freehk@addcolorkey{umbrellablade}
+\freehk@addcolorkey{umbrellagrip}
+\freehk@addcolorkey{umbrellaguard}
+\freehk@addcolorkey{umbrellapommel}
+\freehk@addcolorkey{signcolour}
+\freehk@addcolorkey{signback}
+\freehk@addtextkey{signpost}{5}
+\freehk@addcolorkey{mask}
+
+\pgfdeclareshape{person}{
+        \saveddimen{\scalingfactor}{
+                \setlength{\pgf@xa}{\pgfshapeminwidth}
+                \setlength{\pgf@xb}{9.075pt}
+                \ifdim\pgf@xa<\pgf@xb
+                        \pgfsetshapeminwidth{9.075pt}
+                \fi
+                \setlength{\pgf@xa}{\pgfshapeminheight}
+                \setlength{\pgf@xb}{0.5cm}
+                \ifdim\pgf@xa<\pgf@xb
+                        \pgfsetshapeminheight{0.5cm}
+                \fi
+                \setlength{\pgf@xa}{1pt*\ratio{\pgfshapeminwidth}{9.075pt}}
+                \setlength{\pgf@xb}{1pt*\ratio{\pgfshapeminheight}{12.1pt}}
+                \ifdim\pgf@xa<\pgf@xb
+                        \setlength{\pgf@x}{1pt*\ratio{\pgfshapeminheight}{12.1pt}}
+                \else
+                        \setlength{\pgf@x}{1pt*\ratio{\pgfshapeminwidth}{9.075pt}}
+                \fi
+        }
+
+        \saveddimen{\width}{
+                \pgf@x=\wd\pgfnodeparttextbox
+        }
+        
+        \saveddimen{\height}{
+                \pgf@x=\ht\pgfnodeparttextbox
+        }
+        
+        \saveddimen{\depth}{
+                \pgf@x=\dp\pgfnodeparttextbox
+        }
+        
+        \savedanchor{\mouth}{
+                \if@freehk@mirrored
+                        \pgfpoint{-2.075}{1.7}
+                \else
+                        \pgfpoint{2.4}{1.7}
+                \fi
+        }
+        
+        \anchor{mouth}{
+                \pgfpointscale{\scalingfactor}{\mouth}
+        }
+        \anchor{north west}{
+                \pgfpointscale{\scalingfactor}{\pgfpoint{-4.375}{6.3}}
+        }
+        \anchor{north}{
+                \pgfpointscale{\scalingfactor}{\pgfpoint{0.1625}{6.3}}
+        }
+        \anchor{north east}{
+                \pgfpointscale{\scalingfactor}{\pgfpoint{4.7}{6.3}}
+        }
+        \anchor{east}{
+                \pgfpointscale{\scalingfactor}{\pgfpoint{4.7}{0.25}}
+        }
+        \anchor{south east}{
+                \pgfpointscale{\scalingfactor}{\pgfpoint{4.7}{-5.8}}
+        }
+        \anchor{south}{
+                \pgfpointscale{\scalingfactor}{\pgfpoint{0.1625}{-5.8}}
+        }
+        \anchor{south west}{
+                \pgfpointscale{\scalingfactor}{\pgfpoint{-4.375}{-5.8}}
+        }
+        \anchor{west}{
+                \pgfpointscale{\scalingfactor}{\pgfpoint{-4.375}{0.25}}
+        }
+        \anchor{center}{
+                \pgfpointscale{\scalingfactor}{\pgfpoint{0.1625}{0.25}}
+        }
+        \anchor{text}{
+                \pgfpoint{\scalingfactor*0.1625-0.5*\width}{\scalingfactor*-6.3-\depth-\height}
+        }
+        \anchor{base}{
+                \pgfpoint{\scalingfactor*0.1625}{\scalingfactor*-6.3-\depth-\height}
+        }
+        \anchor{base west}{
+                \pgfpoint{\scalingfactor*-4.375}{\scalingfactor*-6.3-\depth-\height}
+        }
+        \anchor{base east}{
+                \pgfpoint{\scalingfactor*4.7}{\scalingfactor*-6.3-\depth-\height}
+        }
+        \anchor{mid}{
+                \pgfpoint{\scalingfactor*0.1625}{\scalingfactor*-6.3-\depth-\height+.5ex}
+        }
+        \anchor{mid west}{
+                \pgfpoint{\scalingfactor*-4.375}{\scalingfactor*-6.3-\depth-\height+.5ex}
+        }
+        \anchor{mid east}{
+                \pgfpoint{\scalingfactor*4.7}{\scalingfactor*-6.3-\depth-\height+.5ex}
+        }
+
+        \anchorborder{
+                \@tempdima=\pgf@x
+                \@tempdimb=\pgf@y
+                \pgftransformshift{\pgfpoint{\scalingfactor*-0.1625}{\scalingfactor*0.4pt}}
+                \pgfpointborderellipse{\pgfpoint{\@tempdima}{\@tempdimb}}{\pgfpoint{\scalingfactor*5.9pt}{\scalingfactor*6.9pt}}
+        }
+
+
+        \beforebackgroundpath{  
+                \pgftransformscale{\scalingfactor}
+                \if@freehk@mirrored
+                        \pgftransformxscale{-1}
+                        \pgftransformxshift{-0.325}
+                \fi
+                \pgftransformshift{\pgfpoint{-0.3}{3.3}}
+              
+                        \freehk@definecommoncolors
+                        \freehk@definecommonstyles
+                        \freehk@person@paintshirt
+                        \freehk@person@paintrighthorn
+                        \freehk@person@painthead
+                        \freehk@person@painthair
+                        \freehk@person@paintlefthorn
+                        \freehk@person@paintgoatee
+                        \freehk@person@painthalo
+                        \if@freehk@shield
+                                \freehk@person@paintshield
+                        \fi
+                        \if@freehk@umbrella
+                                \freehk@person@paintumbrella
+                        \fi
+                        \if@freehk@sword
+                                \freehk@person@paintsword
+                        \fi
+                        \if@freehk@monitor
+                                \freehk@person@paintmonitor
+                        \fi
+                        \if@freehk@sign
+                                \freehk@person@paintsign
+                        \fi
+                        \if@freehk@masked
+                                \freehk@person@paintmask
+                        \fi
+                
+        }
+}
+
+\newcommand{\freehk@definecommonstyles}{
+    \tikzset{
+                        shirt/.style=       {color=\freehk@shirt,top color=\freehk@shirt!70, bottom color=\freehk@shirt,shading angle=45},
+                        hat/.style=         {color=\freehk@hat,top color=\freehk@hat!70, bottom color=\freehk@hat,shading angle=45},
+                        undershirt/.style=  {color=\freehk@undershirt,top color=\freehk@undershirt!70, bottom color=\freehk@undershirt,shading angle=45},
+                        skin/.style=        {color=\freehk@skin,top color=\freehk@skin!70, bottom color=\freehk@skin,shading angle=45},
+                        hair/.style=        {color=\freehk@hair,top color=\freehk@hair!70, bottom color=\freehk@hair,shading angle=45},
+                        goatee/.style=      {color=\freehk@hair,top color=\freehk@hair!70, bottom color=\freehk@hair,shading angle=45},
+                        horns/.style=       {color=\freehk@horns,top color=\freehk@horns!70, bottom color=\freehk@horns,shading angle=45},
+                        halo/.style=        {color=\freehk@halo,top color=\freehk@halo!70, bottom color=\freehk@halo,shading angle=45},
+                        shieldmid/.style=   {color=\freehk@shieldmid,top color=\freehk@shieldmid!70, bottom color=\freehk@shieldmid,shading angle=45,line join=bevel},
+                        shieldedge/.style=  {color=\freehk@shieldedge,top color=\freehk@shieldedge!70, bottom color=\freehk@shieldedge,shading angle=45,line join=bevel},
+                        shieldrivets/.style={color=\freehk@shieldrivets,top color=\freehk@shieldrivets!70, bottom color=\freehk@shieldrivets,shading angle=45},
+                        swordblade/.style=  {color=\freehk@swordblade,top color=\freehk@swordblade!70, bottom color=\freehk@swordblade,shading angle=45},
+                        swordguard/.style=  {color=\freehk@swordguard,top color=\freehk@swordguard!70, bottom color=\freehk@swordguard,shading angle=45},
+                        swordpommel/.style= {color=\freehk@swordpommel,top color=\freehk@swordpommel!70, bottom color=\freehk@swordpommel,shading angle=45},
+                        swordgrip/.style=   {color=\freehk@swordgrip,top color=\freehk@swordgrip!70, bottom color=\freehk@swordgrip,shading angle=45},
+                        umbrellablade/.style=  {color=\freehk@umbrellablade,top color=\freehk@umbrellablade!70, bottom color=\freehk@umbrellablade,shading angle=45},
+                        umbrellaguard/.style=  {color=\freehk@umbrellaguard,top color=\freehk@umbrellaguard!70, bottom color=\freehk@umbrellaguard,shading angle=45},
+                        umbrellapommel/.style= {color=\freehk@umbrellapommel,top color=\freehk@umbrellapommel!70, bottom color=\freehk@umbrellapommel,shading angle=45},
+                        umbrellagrip/.style=   {color=\freehk@umbrellagrip,top color=\freehk@umbrellagrip!70, bottom color=\freehk@umbrellagrip,shading angle=45},
+                        monitor1/.style=    {color=\freehk@pc, top color=\freehk@pc, bottom color=\freehk@pc!70,shading angle=90},
+                        monitor2/.style=    {color=\freehk@pc, top color=\freehk@pc, bottom color=\freehk@pc!90,shading angle=90},
+                        monitor3/.style=    {color=\freehk@pc, top color=\freehk@pc!80, bottom color=\freehk@pc!70,shading angle=90},
+                        monitor4/.style=    {color=\freehk@pc, top color=\freehk@pc!60, bottom color=\freehk@pc!50,shading angle=90},
+						signcolour/.style={color=\freehk@signcolour,top color=\freehk@signcolour!70, bottom color=\freehk@signcolour,shading angle=90},
+						signback/.style={color=\freehk@signback,top color=\freehk@signback!70, bottom color=\freehk@signback,shading angle=90},
+                        mask/.style={color=\freehk@mask,top color=\freehk@mask!70, bottom color=\freehk@mask,shading angle=90},
+            }
+}
+
+
+
+\newcommand{\freehk@definecommoncolors}{
+        \definecolor{horns}{named}{red}
+        \definecolor{halo}{named}{yellow}
+        \definecolor{skin}{rgb}{0.84,0.58,0.24}
+        \definecolor{shirt}{rgb}{0.34,0.56,0.22}
+        \definecolor{hair}{rgb}{0.45,0.24,0}
+        \definecolor{pc}{rgb}{.2,.2,.2}
+        \definecolor{shieldedge}{RGB}{83,84,85}
+        \definecolor{shieldrivets}{RGB}{25,25,26}
+        \definecolor{shieldmid}{RGB}{197,22,9}
+        \definecolor{swordblade}{RGB}{83,84,85}
+        \definecolor{swordguard}{RGB}{147,131,104}
+        \definecolor{swordpommel}{RGB}{147,131,104}
+        \definecolor{swordgrip}{RGB}{81,57,48}
+        \definecolor{umbrellablade}{rgb}{1,0.9,0}
+        \definecolor{umbrellaguard}{RGB}{147,131,104}
+        \definecolor{umbrellapommel}{RGB}{147,131,104}
+        \definecolor{umbrellagrip}{RGB}{81,57,48}
+        \definecolor{signcolour}{RGB}{139,69,19}
+        \definecolor{signback}{RGB}{0,128,0}
+        \definecolor{mask}{RGB}{171,201,177}
+}
+
+\newcommand{\freehk@person@paintshirt}{
+        \draw[shirt] 
+                (-4.0pt,-8.0pt) .. controls (-2pt,-10pt) and ( 3pt,-9pt) .. 
+                ( 5.0pt,-7.0pt) .. controls ( 5pt, 0pt) and (-5pt, 0pt) .. 
+                (-4.0pt,-8.0pt) -- cycle;
+}
+
+\newcommand{\freehk@person@painthead}{
+        \draw[skin] (0pt,0pt) circle (3pt);
+}
+
+\newcommand{\freehk@person@painthair}{
+        \if@freehk@female
+                \freehk@person@paintfemalehair
+        \else
+                \draw[hair]
+                        (25:3pt) arc (25:210:3pt) -- (-2.6pt,-0.5pt) -- (-1.7pt,-1pt) -- 
+                        (-1.7pt,0.8pt) to[out=350,in=210] (25:3pt) -- cycle;
+        \fi
+}
+
+\newcommand{\freehk@person@painthairstyletwo}{
+        \if@freehk@female
+                \freehk@person@paintfemalehairstyletwo
+        \else
+        \draw[hair]
+                (15:3pt) arc (15:210:3pt) -- ++(0.3pt,0pt) -- ++(0.1pt,0.5pt)
+                .. controls +(310:.2pt) .. ++(0.2pt,-0.6pt) -- ++(0.4pt,0pt) 
+                .. controls +(90:1pt) .. (-1.7pt,0.4pt) to[out=350,in=210]
+                (15:3pt) -- cycle;
+        \fi
+}
+
+\newcommand{\freehk@person@paintfemalehairstyletwo}{
+        \draw[hair]
+                (15:3pt) arc (15:165:3pt) .. controls +(260:1pt) .. (215:4.5pt) -- 
+                ++(4:0.5pt) -- ++(70:0.5pt) -- ++(285:0.4pt) -- ++(0:1.5pt) --
+                (-1.6pt,0pt) to [out=350,in=210] (15:3pt) -- cycle;
+}
+
+\newcommand{\freehk@person@paintfemalehairstylethree}{
+        \draw[hair]
+                (15:3pt) arc (15:180:3.3pt) .. controls +(269:3pt) and +(190:1.5pt) 
+                .. (250:3.4pt) .. controls +(118:1.2pt) .. (-1.6pt,0pt) to [out=350,in=210]
+                (15:3pt)-- cycle;
+}
+
+\newcommand{\freehk@person@paintgoatee}{
+        \if@freehk@evil
+                {
+                        \pgftransformrotate{5}
+                        \draw[goatee] (285:1.75pt) 
+                        -- ++(0:1pt) arc[start angle=90, end angle=0, x radius=.55pt, y radius=.5pt]
+                        -- ++(270:.5pt) arc[start angle=0, end angle=-90, x radius=.55pt, y radius=.5pt]
+                        -- ++(180:1pt) arc[start angle=-90, end angle=-180, x radius=.55pt, y radius=.5pt]
+                        -- ++(90:.5pt) arc[start angle=180, end angle=90, x radius=.55pt, y radius=.5pt]
+                        (285:1.75pt) ++(.1875pt,-.3pt) 
+                        arc[start angle=90,end angle=270,x radius=.45pt, y radius=.3pt]
+                        -- ++(0:.6pt) arc[start angle=-90,end angle=90,x radius=.45pt, y radius=.3pt] 
+                        -- ++(180:.6pt);
+                }
+        \fi
+}
+
+\newcommand{\freehk@person@paintlefthorn}{
+        \if@freehk@evil
+                \draw[horns] 
+                        (140:2.5pt) arc (-90:-170:2pt) arc (0:180:0.04pt) arc (190:240:4pt) 
+                        to[out=70,in=290] (140:2.5pt) -- cycle;
+        \fi
+}
+
+\newcommand{\freehk@person@paintrighthorn}{
+        \if@freehk@evil
+                \draw[horns] 
+                        (40:2.5pt) arc (-90:-10:2pt) arc (180:0:0.04pt) arc (-10:-60:4pt) 
+                        to[out=110,in=250] (40:2.5pt) -- cycle;
+        \fi
+}
+
+\newcommand{\freehk@person@painthalo}{
+        \if@freehk@good
+                \draw[fill,halo,even odd rule]
+                        (0.1pt,4.5pt) ellipse (2.8pt and 0.8pt) ++(0pt,.1pt) ellipse 
+                        (2pt and 0.5pt);
+        \fi
+}
+
+\newcommand{\freehk@person@paintfemalehair}{
+        \draw[hair]
+                (15:3pt) arc (15:180:3pt) .. controls +(273:2pt) and +(190:2pt) .. 
+                (260:3.3pt) .. controls +(140:1pt) .. (-1.6pt,0pt) to [out=350,in=210]
+                (15:3pt) -- cycle;
+}
+
+\newcommand{\freehk@person@paintshield}{
+        \path
+                (1pt,-3.7pt) coordinate (freehk@shield1) +(-.2pt,.1pt) coordinate 
+                (freehk@shield6) ++(1.2pt,1.2pt) coordinate (freehk@shield2) 
+                ++(3.5pt,1.3pt) coordinate (freehk@shield3) ++(.8pt,-.75pt) coordinate 
+                (freehk@shield4) ++(-2pt,-6.5pt) coordinate (freehk@shield5) 
+                --cycle;
+        \draw[shieldedge] 
+                (freehk@shield1) -- (freehk@shield6) to[out=0,in=270] 
+                ++(1.2pt,1.2pt) -- (freehk@shield2) to[out=270,in=0] 
+                (freehk@shield1) --cycle;
+        \draw[shieldedge]
+                (freehk@shield3) -- ++(-.2pt,.1pt) to[out=265,in=220] 
+                ++(.8pt,-.75pt) -- (freehk@shield4) to[out=220,in=265] 
+                (freehk@shield3) --cycle;
+        \draw[shieldedge] 
+                (freehk@shield2) -- ++(-.2pt,.1pt) .. controls +(5:1.5pt) and 
+                +(220:1.5pt) .. ++(3.5pt,1.3pt) -- (freehk@shield3) .. controls 
+                +(220:1.5pt) and +(5:1.5pt) .. (freehk@shield2) --cycle;
+        \draw[shieldedge] 
+                (freehk@shield5) -- ++(-.2pt,.1pt) .. controls +(170:1.5pt) and 
+                +(270:3pt) .. (freehk@shield6) -- (freehk@shield1) .. controls 
+                +(270:3pt) and +(170:1.5pt) .. (freehk@shield5) --cycle;
+        \draw[shieldedge] 
+                (freehk@shield1) to[out=0,in=270] (freehk@shield2) .. controls 
+                +(5:1.5pt) and +(220:1.5pt)     .. (freehk@shield3) to[out=265,in=220] 
+                (freehk@shield4) .. controls +(270:3pt) and +(30:1.5pt) .. 
+                (freehk@shield5) .. controls +(170:1.5pt) and +(270:3pt) .. 
+                (freehk@shield1) --cycle;
+}
+
+\newcommand{\freehk@person@paintsword}{
+        \begin{scope}
+                \pgftransformrotate{-30}
+                \pgftransformshift{\pgfpoint{1.7pt}{-.2pt}}
+                \draw[swordpommel]
+                        (-.4pt,-8.9pt) -- ++(0pt,-.1pt) arc (180:360:.4pt and .15pt) -- 
+                        ++(0pt,.1pt); ellipse (.4pt and .15pt);
+                \draw[swordpommel] (0pt,-8.9pt) ellipse (.4pt and .15pt);
+                \draw[swordgrip] 
+                        (-.2pt,-7.1pt) to[out=265,in=95] (-.2pt,-8.9pt) to[out=345,in=195] 
+                        (.2pt,-8.9pt) to[out=85,in=275] (.2pt,-7.1pt);
+                \draw[skin] (0pt,-8.1pt) ellipse (.6pt and .7pt);
+                \draw[swordguard] 
+                        (0pt,-7.45pt) to[out=0,in=270] (1.4pt,-6.5pt) -- ++(-.1pt,-.1pt) 
+                        to[out=270,in=0] (0pt,-7.45pt); to[out=0,in=270] (1.2pt,-6.6pt) -- 
+                        ++(.1pt,.1pt) to[out=270,in=0] (0pt,-6.8pt);
+                \draw[swordguard] 
+                        (0pt,-6.8pt) to[out=180,in=270] (-1.1pt,-6.5pt) -- ++(-.1pt,-.1pt) 
+                        to[out=270,in=180] (0pt,-7.2pt) to[out=0,in=270] (1.2pt,-6.6pt) -- 
+                        ++(.1pt,.1pt) to[out=270,in=0] (0pt,-6.8pt);
+                \draw[swordguard] 
+                        (-1.2pt,-6.6pt) -- ++(0.1pt,0.1pt) -- ++(-0.1pt,0pt) -- ++(-0.1pt,-0.1pt) 
+                        --cycle;
+                \draw[swordguard] 
+                        (1.2pt,-6.6pt) -- ++(0.1pt,0.1pt) -- ++(0.1pt,0pt) -- ++(-0.1pt,-0.1pt) 
+                        --cycle;
+                \draw[swordguard] 
+                        (0pt,-7.2pt) to[out=180,in=270] (-1.2pt,-6.6pt) -- ++(-.1pt,0pt) 
+                        to[out=270,in=180] (0pt,-7.45pt) to[out=0,in=270] (1.3pt,-6.6pt) -- 
+                        ++(-.1pt,0pt) to[out=270,in=0] (0pt,-7.2pt);
+                \draw[swordblade] 
+                        (-.4pt,-7pt) -- (-.4pt,-1.5pt) to[out=90,in=240] (0pt,2pt) 
+                        to[out=300,in=90] (.4pt,-1.5pt) -- (.4pt,-7pt) to[out=190,in=350] 
+                        (-.4pt,-7pt);
+                {
+                        \clip 
+                                (-.4pt,-7pt) -- (-.4pt,-1.5pt) to[out=90,in=240] (0pt,1pt) 
+                                to[out=300,in=90] (.4pt,-1.5pt) -- (.4pt,-7pt) to[out=190,in=350] 
+                                (-.4pt,-7pt);
+                        \draw[swordblade, line width=.05*\scalingfactor,cap=round] 
+                                (0pt,-7.04pt) -- (0pt,.7pt);
+                }
+        \end{scope}
+}
+
+\newcommand{\freehk@person@paintumbrella}{
+         \begin{scope}
+%                 \pgftransformrotate{-60}
+%                 \pgftransformshift{\pgfpoint{5pt}{5pt}}
+                \pgftransformrotate{-30}
+                \pgftransformshift{\pgfpoint{1.7pt}{-.2pt}}
+                \draw[umbrellapommel]
+                        (-.4pt,-8.9pt) -- ++(0pt,-.1pt) arc (180:360:.4pt and .15pt) -- 
+                        ++(0pt,.1pt); ellipse (.4pt and .15pt);
+                \draw[umbrellapommel] (0pt,-8.9pt) ellipse (.4pt and .15pt);
+                \draw[umbrellagrip] 
+                        (-.2pt,-7.1pt) to[out=265,in=95] (-.2pt,-8.9pt) to[out=345,in=195] 
+                        (.2pt,-8.9pt) to[out=85,in=275] (.2pt,-7.1pt);
+                \draw[skin] (0pt,-8.1pt) ellipse (.6pt and .7pt);
+%                 \draw[umbrellaguard] 
+%                         (0pt,-7.45pt) to[out=0,in=270] (1.4pt,-6.5pt) -- ++(-.1pt,-.1pt) 
+%                         to[out=270,in=0] (0pt,-7.45pt); to[out=0,in=270] (1.2pt,-6.6pt) -- 
+%                         ++(.1pt,.1pt) to[out=270,in=0] (0pt,-6.8pt);
+%                 \draw[umbrellaguard] 
+%                         (0pt,-6.8pt) to[out=180,in=270] (-1.1pt,-6.5pt) -- ++(-.1pt,-.1pt) 
+%                         to[out=270,in=180] (0pt,-7.2pt) to[out=0,in=270] (1.2pt,-6.6pt) -- 
+%                         ++(.1pt,.1pt) to[out=270,in=0] (0pt,-6.8pt);
+%                 \draw[umbrellaguard] 
+%                         (-1.2pt,-6.6pt) -- ++(0.1pt,0.1pt) -- ++(-0.1pt,0pt) -- ++(-0.1pt,-0.1pt) 
+%                         --cycle;
+%                 \draw[umbrellaguard] 
+%                         (1.2pt,-6.6pt) -- ++(0.1pt,0.1pt) -- ++(0.1pt,0pt) -- ++(-0.1pt,-0.1pt) 
+%                         --cycle;
+%                 \draw[umbrellaguard] 
+%                         (0pt,-7.2pt) to[out=180,in=270] (-1.2pt,-6.6pt) -- ++(-.1pt,0pt) 
+%                         to[out=270,in=180] (0pt,-7.45pt) to[out=0,in=270] (1.3pt,-6.6pt) -- 
+%                         ++(-.1pt,0pt) to[out=270,in=0] (0pt,-7.2pt);
+                \draw[umbrellablade] 
+                        (-.4pt,-7pt) -- (-.4pt,-1.5pt) to[out=90,in=240] (0pt,2pt) 
+                        to[out=300,in=90] (.4pt,-1.5pt) -- (.4pt,-7pt) to[out=190,in=350] 
+                        (-.4pt,-7pt);
+                {
+                        \clip 
+                                (-.4pt,-7pt) -- (-.4pt,-1.5pt) to[out=90,in=240] (0pt,1pt) 
+                                to[out=300,in=90] (.4pt,-1.5pt) -- (.4pt,-7pt) to[out=190,in=350] 
+                                (-.4pt,-7pt);
+                        \draw[umbrellablade, line width=.05*\scalingfactor,cap=round] 
+                                (0pt,-7.04pt) -- (0pt,.7pt);
+                }
+        \end{scope}
+}
+
+\newcommand{\freehk@person@paintmonitor}{
+                \path[monitor1]
+                        (2.3pt,-2.3pt) -- ++(14:7.3pt) -- ++(340:.27pt) coordinate (freehk@tmp) -- 
+                        ++(195:7.3pt) -- ++(264:6.2pt) coordinate (freehk@tmp2) -- ++(150:.27pt) --cycle;
+                \path[monitor3]
+                        (2.3pt,-2.3pt) ++(330:.28pt) -- (freehk@tmp) -- ++(264:6.2pt) -- (freehk@tmp2) --cycle;
+                \path[monitor4] 
+                        (3pt,-3pt) -- ++(14.5:6.4pt) -- ++(264:5pt) -- ++(195:6.35pt) 
+                        coordinate (freehk@tmp) --cycle;
+                \path[draw,color=\freehk@pc!80,line width=.15*\scalingfactor,cap=butt] 
+                        (freehk@tmp) -- (3pt,-3pt) -- ++(14.5:6.4pt);
+                \begin{scope}
+                        \pgftransformshift{\pgfpoint{6pt}{-4.7pt}}
+                        \pgftransformxslant{0.15}
+                        \path[monitor1] 
+                                (0,0) ellipse (1.3pt and 2pt);
+                        \path[monitor3] 
+                                (.1pt,-.1pt) ellipse (1.3pt and 2pt);
+                \end{scope}
+                \path[monitor2] 
+                        (6.05pt,-4.8pt) ++(160:.9pt) -- ++(15:2pt) -- ++(265:1pt) -- ++(195:2pt) 
+                        --cycle;
+                \path (6.1pt,-4.8pt) ++(17:.8pt) coordinate (freehk@tmp);
+                \path[monitor1] 
+                        (6.1pt,-4.8pt) ++(190:.6pt) ++(280:4pt) ++(-1.5pt,.2pt) -- ++(0,-.2pt) -- 
+                        ++(325:1.6pt) -- ++(15:3.7pt) -- ++(0,.2pt) -- cycle;
+                \path[monitor3] 
+                        (6.1pt,-4.8pt) ++(190:.6pt) ++(280:4pt) ++(-1.5pt,.2pt) -- ++(325:1.6pt) 
+                        -- ++(15:3.7pt) -- ++(145:1.6pt) --cycle;
+                \path[monitor2] 
+                        (6.1pt,-4.8pt) ++(190:.6pt) ++(280:4pt) ++(-.6pt,.2pt) -- ++(325:.8pt) -- 
+                        ++(15:2.5pt) -- ++(145:.8pt) --cycle;
+                \path[monitor2] 
+                        (freehk@tmp) ++(0,.01pt) -- ++(194:1.5pt) -- ++(280:4pt) -- ++(0:.07pt) -- 
+                        ++(17:.5pt) --cycle;
+                \path[monitor3] 
+                        (6.1pt,-4.8pt) ++(190:.6pt) -- ++(280:4pt) coordinate (freehk@tmp2) -- ++(15:2pt)
+                        -- (freehk@tmp) --cycle;
+
+}
+
+\newcommand{\freehk@person@paintsign}{
+  \begin{scope}
+  \pgftransformshift{\pgfpoint{-3pt}{-8pt}}
+  \fill[signcolour] (0.2pt,0pt) rectangle (0.8pt,1.75pt); %handle
+  \pgftransformrotate{-30}
+  \draw[skin] (0.2pt,0.6pt) ellipse (.6pt and .7pt);
+  \pgftransformrotate{30}
+  \fill[signcolour] (-3pt,1.7pt) rectangle (4pt,6pt);
+  \fill[signback] (-2.5pt,2.2pt) rectangle (3.5pt,5.5pt); %writing area
+  %\node[color=white] at (1.5pt,1.65pt) {$5$};
+   {
+                        \pgftransformrotate{0}
+                        \pgf@xa2pt*\scalingfactor
+                        \if@freehk@mirrored
+                                \pgftransformxscale{-1}
+                                \pgftext[at=\pgfpoint{-0.3pt}{3.7pt}]{\resizebox{\pgf@xa}{!}{\color{white}{ \freehk@signpost}}}
+                        \else
+                                \pgftext[at=\pgfpoint{0.3pt}{3.7pt}]{\resizebox{\pgf@xa}{!}{\color{white}{ \freehk@signpost}}}
+                        \fi
+   }
+   \end{scope}
+}
+
+\newcommand{\freehk@person@paintmask}{
+        \begin{scope}
+                \clip (0,0) circle (\pgflinewidth/\scalingfactor +3);
+                \draw[mask,color=\freehk@mask!40,shading angle=-90] 
+                        (-17:3pt) arc (295:235:6.1pt) -- ++(0,-.05pt) arc (235:295:6.1pt) --cycle;
+                \draw[mask] 
+                        (-18:3pt) arc (295:235:6pt) -- ++(0,-.05pt) arc (230:245:5pt) -- 
+                        ++(0,-.6pt) arc (260:245:6pt) -- ++(0,-.1pt) arc (235:300:6pt) --cycle;
+        \end{scope}
+}
+
+
+
+\newcommand{\freehk@declareshape}[1]{
+        \input{freehk.shape.#1.sty}
+        \pgfdeclareshape{#1}{
+                \inheritsavedanchors[from={person}]
+                \inheritanchor[from={person}]{north west}
+                \inheritanchor[from={person}]{north}
+                \inheritanchor[from={person}]{north east}
+                \inheritanchor[from={person}]{east}
+                \inheritanchor[from={person}]{south east}
+                \inheritanchor[from={person}]{south}
+                \inheritanchor[from={person}]{south west}
+                \inheritanchor[from={person}]{west}
+                \inheritanchor[from={person}]{center}
+                \inheritanchor[from={person}]{text}
+                \inheritanchor[from={person}]{base}
+                \inheritanchor[from={person}]{base west}
+                \inheritanchor[from={person}]{base east}
+                \inheritanchor[from={person}]{mid}
+                \inheritanchor[from={person}]{mid west}
+                \inheritanchor[from={person}]{mid east}
+                \inheritanchor[from={person}]{mouth}
+                \inheritanchorborder[from={person}]
+        
+                \beforebackgroundpath{
+                        \pgftransformscale{\scalingfactor}
+                        \if@freehk@mirrored
+                                \pgftransformxscale{-1}
+                                \pgftransformxshift{-0.325}
+                        \fi
+                        \pgftransformshift{\pgfpoint{-0.3}{3.3}}
+                        \freehk@definecommoncolors
+                        \csname freehk@#1@definecolors\endcsname
+                        \freehk@definecommonstyles
+                        \csname freehk@#1@definestyles\endcsname
+                        \begin{scope}
+                                \csname freehk@#1@paint\endcsname
+                        \end{scope}
+                        \if@freehk@shield
+                                \freehk@person@paintshield
+                        \fi
+                        \if@freehk@umbrella
+                                \freehk@person@paintumbrella
+                        \fi
+                        \if@freehk@sword
+                                \freehk@person@paintsword
+                        \fi
+                        \if@freehk@monitor
+                                \freehk@person@paintmonitor
+                        \fi
+                        \if@freehk@sign
+                                \freehk@person@paintsign
+                        \fi
+                        \if@freehk@masked
+                                \freehk@person@paintmask
+                        \fi
+                }
+        }
+}
+
+        \RequirePackage{xparse}
+        \RequirePackage{capt-of}
+        \RequirePackage{xifthen}
+        \newcounter{freehk@shaperow}
+        \newcounter{freehk@shapecolumn}
+        \newcounter{freehk@shapenum}
+        \newcounter{freehk@totalshapes}
+        \newlength{\freehk@figwidth}
+        \newlength{\freehk@captionht}
+      \newcommand{\freehkcolors}[1]{
+                \begin{minipage}{.95\textwidth}
+                        \begin{center}
+                                \centering
+                                \expandafter\let\expandafter\freehk@peoplecolors\csname freehk@#1@colors\endcsname
+                                \begin{tikzpicture}
+                                        \node[minimum width=2.5cm,#1] {};
+                                        \foreach \freehk@name/\freehk@angle/\freehk@coords in \freehk@peoplecolors{
+                                                \node (label) at (\freehk@angle:2.5) {\freehk@name};
+                                                \foreach \x/\y in \freehk@coords{
+                                                        \draw (label) edge (\x,\y);
+                                                }
+                                        }
+                                \end{tikzpicture}
+                                \captionof{figure}{The available color-keys for \texttt{#1} freehk.}
+                        \end{center}
+                \end{minipage}
+        }
+
+
+
+% \freehk@declareshape{alice}
+% \freehk@declareshape{bob}
+% \freehk@declareshape{bride}
+% \freehk@declareshape{builder}
+% \freehk@declareshape{businessman}
+% \freehk@declareshape{charlie}
+% \freehk@declareshape{chef}
+% \freehk@declareshape{conductor}
+% \freehk@declareshape{cowboy}
+% \freehk@declareshape{criminal}
+% \freehk@declareshape{dave}
+% \freehk@declareshape{devil}
+% \freehk@declareshape{duck}
+% \freehk@declareshape{graduate}
+% \freehk@declareshape{groom}
+% \freehk@declareshape{guard}
+% \freehk@declareshape{jester}
+% \freehk@declareshape{judge}
+% \freehk@declareshape{maninblack}
+% \freehk@declareshape{mexican}
+% \freehk@declareshape{nun}
+% \freehk@declareshape{nurse}
+% \freehk@declareshape{physician}
+% \freehk@declareshape{pilot}
+\freehk@declareshape{hkpolice}
+\freehk@declareshape{police}
+% \freehk@declareshape{priest}
+\freehk@declareshape{protestor}
+% \freehk@declareshape{sailor}
+% \freehk@declareshape{santa}
+% \freehk@declareshape{surgeon}
+
+\let\pgfmath@function@veclen\relax
+\pgfmathdeclarefunction{veclen}{2}{%
+  \begingroup%
+  \pgfmath@x#1pt\relax%
+  \pgfmath@y#2pt\relax%
+  \ifdim\pgfmath@x<0pt\relax%
+  \pgfmath@x-\pgfmath@x%
+  \fi%
+  \ifdim\pgfmath@y<0pt\relax%
+  \pgfmath@y-\pgfmath@y%
+  \fi%
+  \ifdim\pgfmath@x=0pt\relax%
+  \pgfmath@x\pgfmath@y%
+  \else%
+  \ifdim\pgfmath@y=0pt\relax%
+  \else%
+  \ifdim\pgfmath@x>\pgfmath@y%
+  \pgfmath@xa\pgfmath@x%
+  \pgfmath@x\pgfmath@y%
+  \pgfmath@y\pgfmath@xa%
+  \fi%
+  % We use a scaling factor to reduce errors.
+  % First, see if we should scale down
+  \let\pgfmath@tmp@scale=\divide
+  \let\pgfmath@tmp@restore=\multiply
+  \ifdim\pgfmath@y>10000pt\relax%
+  \c@pgfmath@counta1500\relax%
+  \else%
+  \ifdim\pgfmath@y>1000pt\relax%
+  \c@pgfmath@counta150\relax%
+  \else%
+  \ifdim\pgfmath@y>100pt\relax%
+  \c@pgfmath@counta50\relax%
+  \else%
+  % Not scaling down, should we scale up?
+  \let\pgfmath@tmp@scale=\multiply
+  \let\pgfmath@tmp@restore=\divide
+  \ifdim\pgfmath@y<0.00001pt\relax%
+  \c@pgfmath@counta1500\relax%
+  \else%
+  \ifdim\pgfmath@y<0.0001pt\relax%
+  \c@pgfmath@counta150\relax%
+  \else%
+  \ifdim\pgfmath@y<0.001pt\relax%
+  \c@pgfmath@counta50\relax%
+  \else
+  \c@pgfmath@counta1\relax%
+  \fi%
+  \fi%
+  \fi%
+  \fi%
+  \fi%
+  \fi%
+  \pgfmath@tmp@scale\pgfmath@x\c@pgfmath@counta\relax%
+  \pgfmath@tmp@scale\pgfmath@y\c@pgfmath@counta\relax%
+  \pgfmathreciprocal@{\pgfmath@tonumber{\pgfmath@y}}%
+  \pgfmath@x\pgfmathresult\pgfmath@x%
+  \pgfmath@xa\pgfmath@tonumber{\pgfmath@x}\pgfmath@x%
+  \edef\pgfmath@temp{\pgfmath@tonumber{\pgfmath@xa}}%
+  %
+  % Use A+x^2*(B+x^2*(C+x^2*(D+E*x^2))) 
+  % where
+  % A = +1.000012594
+  % B = +0.4993615349 
+  % C = -0.1195159052
+  % D = +0.04453994279
+  % E = -0.01019210944
+  %
+  \pgfmath@x-0.01019210944\pgfmath@xa%
+  \advance\pgfmath@x0.04453994279pt\relax%
+  \pgfmath@x\pgfmath@temp\pgfmath@x%
+  \advance\pgfmath@x-0.1195159052pt\relax%
+  \pgfmath@x\pgfmath@temp\pgfmath@x%
+  \advance\pgfmath@x0.4993615349pt\relax%
+  \pgfmath@x\pgfmath@temp\pgfmath@x%
+  \advance\pgfmath@x1.000012594pt\relax%
+  \ifdim\pgfmath@y<0pt\relax%
+  \pgfmath@y-\pgfmath@y%
+  \fi%
+  \pgfmath@x\pgfmath@tonumber{\pgfmath@y}\pgfmath@x%
+  % Invert the scaling factor.
+  \pgfmath@tmp@restore\pgfmath@x\c@pgfmath@counta\relax%
+  \fi%
+  \fi%
+  \pgfmath@returnone\pgfmath@x%
+  \endgroup%
+}
+
+

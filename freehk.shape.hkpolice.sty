@@ -1,0 +1,174 @@
+%% Copyright 2019 2047freehk
+%%
+%% This work may be distributed and/or modified under the 
+%% conditions of the LaTeX Project Public License, either 
+%% version 1.3 of this license or (at your option) any later 
+%% version. The latest version of this license is in
+%%
+%%   http://www.latex-project.org/lppl.txt
+%%
+%% and version 1.3 or later is part of all distributions of 
+%% LaTeX version 2005/12/01 or later.
+%%
+%% This work is modified from the package tikzpeople created by Nils Fleischhacker in 2016
+
+
+
+\freehk@addcolorkey{hatshield}
+\freehk@addcolorkey{hatbadge}
+\freehk@addcolorkey{badge}
+\freehk@addcolorkey{vest}
+\freehk@addcolorkey{patches}
+\freehk@addcolorkey{stitching}
+
+\newcommand{\freehk@hkpolice@paint}{
+        \freehk@person@paintshirt
+        \freehk@hkpolice@paintvest
+        \freehk@hkpolice@paintshirtdetails
+        \freehk@person@paintrighthorn
+        \freehk@person@painthead
+        \freehk@person@painthair
+        \freehk@hkpolice@painthat
+        \freehk@person@paintgoatee
+        \freehk@person@paintlefthorn
+        \freehk@person@painthalo
+}
+
+\newcommand{\freehk@hkpolice@paintshirtdetails}{
+        \begin{scope}
+                \clip
+                        (-4.0pt,-8.0pt) .. controls (-2pt,-10pt) and ( 3pt,-9pt) .. 
+                        ( 5.0pt,-7.0pt) .. controls ( 5pt,  0pt) and (-5pt, 0pt) .. (-4.0pt,-8.0pt);
+                \draw[shirt,color=black!85,shading angle=-45]   
+                        (220:3.5pt) .. controls +(0.05pt,-1.5pt) .. ++(0.5pt,-3pt) .. controls 
+                        +(1.3pt,0.8pt) .. ++(3pt,0.5pt) .. controls +(1pt,0.6pt) .. ++(3pt,0.8pt) 
+                        .. controls +(-0.5pt,0.9pt) .. (315:3.3pt);
+                \draw[undershirt] 
+                        (180:3pt) ++(-0.5pt,-1pt) -- (1.5pt,-6pt) -- (300:4pt)-- ++(0pt,1pt);
+                \fill[draw,color=black!85] 
+                        (1.6pt,-6.1pt) -- ++(0.1pt,-1.5pt) -- ++(0.05pt,.75pt);
+                \draw[color=black!85] (1.6pt,-6.1pt) -- +(1pt,5pt);
+                \draw[skin]     (222:3pt) -- (267:4pt) arc (267:300:4pt) -- ++(0.5pt,2pt);
+        \end{scope}
+                \draw[badge] 
+                        (-.4pt,-7.6pt) to[out=185,in=355] (-2.1pt,-7.6pt) -- ++(270:.7pt) 
+                        to[out=355,in=185] (-.4pt,-8.3pt) --cycle;
+
+
+}
+
+\newcommand{\freehk@hkpolice@painthat}{
+        \path (160:3pt) arc (-180:-120:2.85pt and 1pt) coordinate (freehk@tmp);
+        \draw[hatbottom,rounded corners=.75pt] 
+                (freehk@tmp) -- ++(340:1.5pt) .. controls ++(340:1pt) .. ++(10:3.8pt) .. 
+                controls ++(45:.2pt) .. (20:3pt);
+        \draw[hatbottom] 
+                (160:3pt) ++(0pt,1pt) -- (160:3pt) arc (-180:0:2.85pt and 1pt) -- 
+                ++(0pt,1pt);
+        \draw[hattop,rounded corners=.75pt] 
+                (160:3pt) ++(0pt,0.5pt) arc (-180:-22:3pt and 1.05pt) -- ++(1pt,1.5pt) -- 
+                ++(0pt,.4pt) .. controls +(-4pt,.5pt) .. (142:4.8pt) -- ++(0pt,-0.5pt) -- 
+                cycle;
+        \begin{scope}
+                \clip[rounded corners=.75pt] 
+                        (160:3pt) ++(0pt,0.5pt) arc (-180:-22:3pt and 1.05pt) -- ++(1pt,1.5pt) -- 
+                        ++(0pt,.4pt) .. controls +(-4pt,.5pt) .. (142:4.8pt) -- ++(0pt,-0.5pt) -- 
+                        cycle;
+                \draw[hatbottom,nearly opaque] 
+                        (153:3.5pt) ++(0pt,-2pt) -- (153:3.5pt) .. controls ++(350:1.5pt) .. 
+                        ++(10:2.5pt) .. controls ++(335:1.2pt) .. ++(2:2.5pt) coordinate 
+                        (hatbadge) .. controls ++(335:1.2pt) .. ++(10:2.5pt) -- ++(0pt,-2pt);
+        \end{scope}
+        \draw[hatbadge] 
+                (hatbadge) ++(0.2pt,-0.2pt) coordinate (freehk@tmp) .. controls ++(190:.5pt) .. 
+                ++(200:.75pt) .. controls ++(270:.75pt) .. ++(300:1pt) .. controls 
+                ++(70:.5pt) .. ++(55:1.1pt) .. controls ++(135:.3pt) .. (freehk@tmp);
+}
+
+
+\newcommand{\freehk@hkpolice@paintvest}{
+        \begin{scope}
+                \clip 
+                        (-4pt,-8pt) .. controls (-2pt,-10pt) and (3pt,-9pt) .. 
+                        ( 5pt,-7pt) .. controls ( 5pt,  0pt) and (-5pt,0pt) ..
+                        (-4pt,-8pt);
+                \draw[vest,postaction={
+                      decoration={
+                          markings,
+                          mark=at position 0.16 with {\coordinate (freehk@tmp1) at (-.1pt*\scalingfactor,-.1pt*\scalingfactor);},
+                          mark=at position 0.28 with {\coordinate (freehk@tmp2) at (-.1pt*\scalingfactor,-.1pt*\scalingfactor);},
+                          mark=at position 0.6 with {\coordinate (freehk@tmp3) at (-.1pt*\scalingfactor,-.1pt*\scalingfactor);},
+                          mark=at position 0.72 with {\coordinate (freehk@tmp4) at (-.1pt*\scalingfactor,-.1pt*\scalingfactor);};
+                      },decorate
+                  }]
+                        (232:3pt) to[out=315,in=90] ++(2.5pt,-5.5pt) -- 
+                        ++(-2.5pt,0) to[out=90,in=315] ++(-2pt,4pt)--cycle;
+                \draw[patches,postaction={
+                      decoration={
+                          markings,
+                          mark=between positions 0.22 and 0.48 step 0.045 with {\draw[stitching] (.2pt*\scalingfactor,-.1pt*\scalingfactor) -- (0,.1pt*\scalingfactor);},
+                          mark=between positions 0.73 and 1 step 0.045 with {\draw[stitching] (.2pt*\scalingfactor,-.1pt*\scalingfactor) -- (0,.1pt*\scalingfactor);}
+                      },decorate
+                  }]
+                  (freehk@tmp1) to[out=300,in=105] (freehk@tmp2) to[out=190,in=45] (freehk@tmp3) to[out=100,in=300] 
+                  (freehk@tmp4)  to[out=40,in=190] (freehk@tmp1);
+                \draw[vest,postaction={
+                      decoration={
+                          markings,
+                          mark=at position 0.14 with {\coordinate (freehk@tmp1) at (.1pt*\scalingfactor,.1pt*\scalingfactor);},
+                          mark=at position 0.25 with {\coordinate (freehk@tmp2) at (.1pt*\scalingfactor,.1pt*\scalingfactor);},
+                          mark=at position 0.615 with {\coordinate (freehk@tmp3) at (.1pt*\scalingfactor,.1pt*\scalingfactor);},
+                          mark=at position 0.715 with {\coordinate (freehk@tmp4) at (.1pt*\scalingfactor,.1pt*\scalingfactor);};
+                      },decorate
+                  }]
+                        (314:3pt) to[out=245,in=100] ++(-.5pt,-5.5pt) -- 
+                        ++(1.8pt,.8pt) to[out=95,in=250] ++(.5pt,4.5pt)--cycle;
+                \draw[patches,postaction={
+                      decoration={
+                          markings,
+                          mark=between positions 0.28 and 0.52 step 0.055 with {\draw[stitching] (-.2pt*\scalingfactor,-.1pt*\scalingfactor) -- (0,.1pt*\scalingfactor);},
+                          mark=between positions 0.76 and 1 step 0.055 with {\draw[stitching] (-.2pt*\scalingfactor,-.1pt*\scalingfactor) -- (0,.1pt*\scalingfactor);}
+                      },decorate
+                  }]
+                  (freehk@tmp1) to[out=255,in=92] (freehk@tmp2) to[out=357,in=178] (freehk@tmp3) to[out=98,in=268] 
+                  (freehk@tmp4) to[out=170,in=0] (freehk@tmp1);
+%                 \draw[tie,shading angle=-45] 
+%                         (.2pt,-3.7pt) to[out=280,in=80] ++(-.2pt,-1.5pt) .. controls +(-.2pt,1pt) 
+%                         and +(-1.3pt,-.1pt) ..  (.2pt,-3.7pt);
+%                 \draw[tie] 
+%                         (234:3pt) to[out=316,in=120] (.4pt,-4.4pt) to[out=40,in=250] (312:3pt);
+%                 \draw[tie,shading angle=-45] 
+%                         (1pt,-3.8pt) to[out=300,in=80] ++(.5pt,-1pt) to[out=260,in=85] 
+%                         ++(-.3pt,-1.4pt) arc (85:92:.3pt) to[out=92,in=268] 
+%                         ++(-1.2pt,2.2pt) to[out=88,in=135] (1pt,-3.8pt) -- cycle;
+        \end{scope}
+}
+
+\newcommand{\freehk@hkpolice@definecolors}{
+        \definecolor{shirt}{RGB}{34,139,34}
+        \definecolor{hat}{RGB}{34,139,34}
+        \definecolor{badge}{rgb}{1,1,1}
+        \definecolor{hatbadge}{rgb}{0.82,0.82,0.82}
+        \definecolor{hatshield}{rgb}{0.031,0.09,0.19}
+        \definecolor{undershirt}{RGB}{232,232,232}
+        \definecolor{vest}{RGB}{0,0,0}
+        \definecolor{patches}{RGB}{128,128,128}
+}
+
+\newcommand{\freehk@hkpolice@definestyles}{
+                \tikzset{
+                        shirt/.style    ={color=\freehk@shirt!90,top color=\freehk@shirt!90, bottom color=\freehk@shirt,shading angle=45},
+                        hattop/.style   ={color=\freehk@hat!90,top color=\freehk@hat!90, bottom color=\freehk@hat,shading angle=45},
+                        hatbottom/.style={color=\freehk@hatshield,top color=\freehk@hatshield!80, bottom color=\freehk@hatshield,shading angle=45},
+                        badge/.style    ={color=\freehk@badge,top color=\freehk@badge!70, bottom color=\freehk@badge,shading angle=45},
+                        hatbadge/.style ={color=\freehk@hatbadge,top color=\freehk@hatbadge!70, bottom color=\freehk@hatbadge,shading angle=45},
+						vest/.style={color=\freehk@vest,top color=\freehk@vest!70,bottom color=\freehk@vest,shading angle=45},
+                        patches/.style={color=\freehk@patches,top color=\freehk@patches!70,bottom color=\freehk@patches,shading angle=45}
+                }
+}
+
+\newcommand{\freehk@hkpolice@colors}{
+        shirt/190/{-1/-.6}, hat/140/{-.9/1.6}, hair/150/{-.75/.9}, skin/350/{.4/.4}, 
+        badge/210/{-.5/-1.4}, hatbadge/30/{.4/1.3}, hatshield/10/{.7/1},vest/165/{-.7/-.3}, patches/180/{-.5/-.7},  
+        undershirt/330/{.3/-.5}%
+}
