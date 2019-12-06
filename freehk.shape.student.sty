@@ -1,0 +1,116 @@
+%% Copyright 2019 2047freehk
+%%
+%% This work may be distributed and/or modified under the 
+%% conditions of the LaTeX Project Public License, either 
+%% version 1.3 of this license or (at your option) any later 
+%% version. The latest version of this license is in
+%%
+%%   http://www.latex-project.org/lppl.txt
+%%
+%% and version 1.3 or later is part of all distributions of 
+%% LaTeX version 2005/12/01 or later.
+%%
+%% This work is modified from the package tikzpeople created by Nils Fleischhacker in 2016
+
+\freehk@addcolorkey{tie}
+
+\newcommand{\freehk@student@paint}{
+	\freehk@person@paintshirt
+	\freehk@student@paintundershirt
+	\freehk@person@paintrighthorn
+	\freehk@person@painthead
+	\freehk@student@painthair
+	\freehk@person@paintgoatee
+	\freehk@person@paintlefthorn
+	\freehk@person@painthalo
+}
+
+\newcommand{\freehk@student@definecolors}{
+	\definecolor{shirt}{RGB}{136,190,226}
+	\definecolor{tie}{RGB}{173,36,47}
+	\definecolor{undershirt}{rgb}{0.9,0.9,0.9}
+	\definecolor{hair}{rgb}{0,0,0}
+}
+
+\newcommand{\freehk@student@definestyles}{
+		\tikzset{
+			tie/.style={color=\freehk@tie,top color=\freehk@tie!70, bottom color=\freehk@tie,shading angle=45}
+		}
+}
+
+\newcommand{\freehk@student@painthair}{
+	\if@freehk@female
+		\freehk@person@paintfemalehairstylethree
+	\else
+		\draw[hair, shading angle=\if@freehk@mirrored45\else-45\fi]
+			(25:3.1pt) arc (25:120:3.1pt) -- (60:.8pt) to [out=30,in=170]
+			(25:3.1pt) -- cycle;
+		\draw[hair,line join=bevel,shading angle=\if@freehk@mirrored-90\else90\fi]
+			(120:3.1pt) arc (120:190:3.1pt) to[out=283,in=210,looseness=.5] 
+			(220:3pt) arc (300:405:.1pt) to[out=135,in=150,looseness=2] 
+			(-1.7pt,-.6pt) to [out=90,in=180,looseness=1.5] (60:.80pt) -- 
+			(120:3.1pt) -- cycle;
+	\fi
+}
+
+\newcommand{\freehk@student@paintundershirt}{
+	\begin{scope}
+		\clip 
+			(-1.9pt,-1pt) to[out=290,in=130,looseness=.75] (2pt,-7.8pt) 
+			to[out=80,in=280,looseness=.75] (1.9pt,-1pt);
+		\draw[undershirt]
+			(-1.9pt,-1pt) to[out=290,in=130,looseness=.75] (2pt,-7.8pt) 
+			to[out=80,in=280,looseness=.75] (1.9pt,-1pt);
+		\if@freehk@female
+			\draw[skin]
+				(250:2.9pt) to[out=300,in=280,looseness=2] (310:2.8pt) -- cycle;
+			\path[postaction={decorate},decoration={
+				markings,
+				mark=between positions 0.04 and 1 step 0.04 with {\pgftransformscale{\scalingfactor}
+				\fill[tie] (0pt,0pt) circle (.1pt);}
+			}]
+			(245:2.9pt) to[out=300,in=270,looseness=3] (311:3pt);
+		\else
+			\draw[tie]
+				(270:3pt) -- ++(.7pt,-.1pt) -- ++(.05pt,-.3pt) to[out=275,in=95] 
+				++(-.1pt,-.8pt) -- ++(1pt,-4pt) -- ++(.9pt,.25pt) -- ++(-1pt,3.8pt) 
+				to[in=280,out=95] ++(-.4pt,.9pt) -- ++(-.1pt,.25pt) -- (295:3pt);
+			\draw[tie]
+				(270:3pt) ++(.7pt,-.1pt) to[out=30,in=175] ++(.35pt,.1pt) 
+				to[out=300,in=90] ++(.1pt,-.35pt) to[out=210,in=350] ++(-.4pt,-.1pt) 
+				to[out=110,in=270] ++(-0.05pt,.35pt)--cycle;
+		\fi
+	\end{scope}
+	\begin{scope}
+		\clip 
+			(-4pt,-8pt) .. controls (-2pt,-10pt) and (3pt,-9pt) .. 
+			( 5pt,-7pt) .. controls ( 5pt,  0pt) and (-5pt,0pt) ..
+			(-4pt,-8pt);
+		\if@freehk@mirrored
+			\path[postaction={decorate},decoration={
+				markings,
+				mark=between positions 0.11 and .54 step 0.02 with {\pgftransformscale{\scalingfactor}
+				\draw[shirt] (0pt,0pt) -- (0pt,.3pt) arc (360:180:.15pt) -- (-.3pt,0pt);},
+				mark=between positions 0.54 and .91 step 0.02 with {\pgftransformscale{\scalingfactor}
+				\draw[shirt] (0pt,0pt) -- (0pt,.3pt) arc (180:360:.15pt) -- (.3pt,0pt);}
+				}]
+				(-1.9pt,-1pt) to[out=290,in=130,looseness=.75] (2pt,-7.8pt) 
+				to[out=80,in=280,looseness=.75] (1.9pt,-1pt);
+		\else
+			\path[postaction={decorate},decoration={
+				markings,
+				mark=between positions 0.11 and .54 step 0.02 with {\pgftransformscale{\scalingfactor}
+				\draw[shirt] (0pt,0pt) -- (0pt,-.3pt) arc (0:180:.15pt) -- (-.3pt,0pt);},
+				mark=between positions 0.54 and .91 step 0.02 with {\pgftransformscale{\scalingfactor}
+				\draw[shirt] (0pt,0pt) -- (0pt,-.3pt) arc (180:0:.15pt) -- (.3pt,0pt);}
+				}]
+				(-1.9pt,-1pt) to[out=290,in=130,looseness=.75] (2pt,-7.8pt) 
+				to[out=80,in=280,looseness=.75] (1.9pt,-1pt);
+		\fi
+	\end{scope}
+}
+
+\newcommand{\freehk@student@colors}{
+	shirt/340/{1/-.9}, hair/160/{-.8/1}, skin/20/{.4/.6},  tie/360/{.2/-.25}, 
+	undershirt/200/{-.1/-.2}%
+}
