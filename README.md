@@ -11,9 +11,17 @@ mask, umbrella, sign, evil, good, female, mirrored, monitor, shield, sword
 
 All options can be combined freely.
 
-The tikzpeople package is licensed under the LATEX Project Public License.
+The freehk package is licensed under the LATEX Project Public License.
 
 – 2047freehk  Dec 2019
 
 
 ![image](protestor.PNG)
+
+## Installation
+
+To install the package, just download the _freehke.sty_ file and all the shape files, i.e. _freehk.shape.shapename.sty_, somewhere _LaTeX_ can find them.
+	
+Option 1: Put them in your local _texmf_tree at _\textasciitilde/texmf/tex/latex/freehk/_.
+	
+Option 2:	Put them into the folder where your main _.tex_ file resides.
