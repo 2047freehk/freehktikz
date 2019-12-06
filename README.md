@@ -8,6 +8,10 @@ The available node shapes are:
 
 - protestor 
 - hkpolice
+- criminal
+- spy
+- student
+- devil
 
 The nodes have the following hopefully self explanatory options:
 mask, umbrella, sign, evil, good, female, mirrored, monitor, shield, sword
