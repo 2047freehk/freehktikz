@@ -18,6 +18,8 @@ The freehk package is licensed under the LATEX Project Public License.
 
 ![image](protestor.PNG)
 
+Stand with Hong Kong
+
 ## Installation
 
 To install the package, just download the _freehke.sty_ file and all the shape files, i.e. _freehk.shape.shapename.sty_, somewhere _LaTeX_ can find them.
