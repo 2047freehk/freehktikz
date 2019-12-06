@@ -1,6 +1,8 @@
-# freehk tikz package
+# Free Hong Kong TikZ package
 
-The freehk package provides people shaped nodes to be used in tikz. It is based on tikzpeople package. 
+The freehk package provides people shaped nodes to be used in tikz. It is to remember freedom fighter who are devoted to the movement in 2019.
+
+It is based on tikzpeople package. 
 
 The available node shapes are:
 
