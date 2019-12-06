@@ -4,7 +4,8 @@ The freehk package provides people shaped nodes to be used in tikz. It is based 
 
 The available node shapes are:
 
-protestor and hkpolice
+- protestor 
+- hkpolice
 
 The nodes have the following hopefully self explanatory options:
 mask, umbrella, sign, evil, good, female, mirrored, monitor, shield, sword
@@ -18,7 +19,7 @@ The freehk package is licensed under the LATEX Project Public License.
 
 ![image](protestor.PNG)
 
-Stand with Hong Kong
+Fight for Freedom. Stand with Hong Kong.
 
 ## Installation
 
